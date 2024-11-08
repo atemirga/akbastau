@@ -35,19 +35,27 @@
                     <p>{{ __('Уведомления') }}</p>
                 </a>
             </li>
-            <li class="{{ $elementActive == 'users' ? 'active' : '' }}">
-                <a href="{{ route('users') }}">
-                    <i class="nc-icon nc-single-02"></i> <!-- Обновляем иконку на иконку пользователя -->
-                    <p>{{ __('Пользователи') }}</p>
-                </a>
-            </li>
+            @if (auth()->check() && auth()->user()->role == 'admin')
+                <li class="{{ $elementActive == 'departments' ? 'active' : '' }}">
+                    <a href="{{ route('departments.index') }}">
+                        <i class="nc-icon nc-bank"></i> <!-- Обновляем иконку на иконку здания -->
+                        <p>{{ __('Отделы') }}</p>
+                    </a>
+                </li>
+                <li class="{{ $elementActive == 'users' ? 'active' : '' }}">
+                    <a href="{{ route('users.index') }}">
+                        <i class="nc-icon nc-single-02"></i> <!-- Обновляем иконку на иконку пользователя -->
+                        <p>{{ __('Пользователи') }}</p>
+                    </a>
+                </li>
 
-            <li class="{{ $elementActive == 'logbook' ? 'active' : '' }}">
-                <a href="{{ route('logs') }}">
-                    <i class="nc-icon nc-book-bookmark"></i> <!-- Обновляем иконку на соответствующую журналу или записи -->
-                    <p>{{ __('Журнал записи') }}</p>
-                </a>
-            </li>
+                <li class="{{ $elementActive == 'logbook' ? 'active' : '' }}">
+                    <a href="{{ route('logs') }}">
+                        <i class="nc-icon nc-book-bookmark"></i> <!-- Обновляем иконку на соответствующую журналу или записи -->
+                        <p>{{ __('Журнал записи') }}</p>
+                    </a>
+                </li>
+            @endif
         </ul>
     </div>
 </div>

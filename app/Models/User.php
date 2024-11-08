@@ -34,6 +34,8 @@ class User extends Authenticatable
         'phone',
         'password',
         'profile_photo_path',
+        'role',
+        'current_team_id',
     ];
 
     /**
@@ -79,6 +81,11 @@ class User extends Authenticatable
     public function comments(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(Comment::class);
+    }
+
+    public function department(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(Department::class, 'current_team_id');
     }
 
 }

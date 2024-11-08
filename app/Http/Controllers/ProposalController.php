@@ -12,8 +12,13 @@ class ProposalController extends Controller
 {
     public function index()
     {
-        $proposals = Proposal::all(); // Получаем все предложения
-        return view('pages.tickets', compact('proposals')); // Передаем переменную в представление
+        $proposals = null;
+        if(auth()->user()->role == 'admin')
+        {
+            $proposals = Proposal::all();
+        }else{$proposals = Proposal::where('user_id', auth()->user()->id)->get();}
+
+        return view('pages.tickets', compact('proposals')); //Передаем переменную в представление
     }
 
 

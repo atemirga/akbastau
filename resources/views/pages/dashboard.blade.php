@@ -18,7 +18,7 @@
                             <div class="col-7 col-md-8">
                                 <div class="numbers">
                                     <p class="card-category">Предложения</p>
-                                    <p class="card-title">1500</p>
+                                    <p class="card-title">{{App\Models\Proposal::all()->count()}}</p>
                                 </div>
                             </div>
                         </div>
@@ -43,7 +43,7 @@
                             <div class="col-7 col-md-8">
                                 <div class="numbers">
                                     <p class="card-category">Одобрено</p>
-                                    <p class="card-title">1,345</p> <!-- Обновлено значение в блоке -->
+                                    <p class="card-title">{{App\Models\Proposal::where('status', 'accepted')->count()}}</p> <!-- Обновлено значение в блоке -->
                                 </div>
                             </div>
                         </div>
@@ -68,7 +68,7 @@
                             <div class="col-7 col-md-8">
                                 <div class="numbers">
                                     <p class="card-category">Ожидает</p>
-                                    <p class="card-title">23</p> <!-- Количество "на рассмотрении" -->
+                                    <p class="card-title">{{App\Models\Proposal::where('status', 'in_review')->count()}}</p> <!-- Количество "на рассмотрении" -->
                                 </div>
                             </div>
                         </div>
@@ -93,7 +93,7 @@
                             <div class="col-7 col-md-8">
                                 <div class="numbers">
                                     <p class="card-category">Отклонено</p>
-                                    <p class="card-title">89</p> <!-- Количество отклонённых предложений -->
+                                    <p class="card-title">{{App\Models\Proposal::where('status', 'rejected')->count()}}</p> <!-- Количество отклонённых предложений -->
                                 </div>
                             </div>
                         </div>
