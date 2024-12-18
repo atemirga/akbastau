@@ -17,6 +17,7 @@ class UserImportController extends Controller
 
     public function import(Request $request)
     {
+        set_time_limit(300); // Увеличение лимита времени выполнения
         $request->validate([
             'file' => 'required|mimes:xlsx,xls',
         ]);
