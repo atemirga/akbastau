@@ -65,7 +65,7 @@ class UserImportController extends Controller
         return back()->with('success', 'Данные успешно импортированы.');
     }
 
-    function formatPhoneNumber($phone)
+    private function formatPhoneNumber($phone)
     {
         // Удаляем все символы, кроме цифр
         $cleaned = preg_replace('/[^0-9]/', '', $phone);
