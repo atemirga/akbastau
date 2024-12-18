@@ -33,8 +33,7 @@ class UserImportController extends Controller
 
             $name = $row[0]; // ФИО
             $position = $row[1]; // Должность
-            $phone = formatPhoneNumber($row[2]);
-            //$phone = $row[2]; // Телефон
+            $phone = $this->formatPhoneNumber($row[2]); // Исправлено
             $departmentName = $row[3]; // Отдел
 
             // Проверка, существует ли отдел
