@@ -7,13 +7,15 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\Auth\CustomLoginController;
 use App\Http\Controllers\UserImportController;
+use App\Http\Controllers\PDFGeneratorController;
+
 
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-
+Route::get('/generate-pdfs', [PDFGeneratorController::class, 'generatePDFs']);
 Route::get('/import-users', [UserImportController::class, 'importForm'])->name('import.form');
 Route::post('/import-users', [UserImportController::class, 'import'])->name('import');
 
