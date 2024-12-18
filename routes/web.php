@@ -6,11 +6,16 @@ use App\Http\Controllers\ProposalController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\Auth\CustomLoginController;
+use App\Http\Controllers\UserImportController;
 
 
 Route::get('/', function () {
     return view('welcome');
 });
+
+
+Route::get('/import-users', [UserImportController::class, 'importForm'])->name('import.form');
+Route::post('/import-users', [UserImportController::class, 'import'])->name('import');
 
 Route::post('/login', [CustomLoginController::class, 'login'])->name('login');
 
