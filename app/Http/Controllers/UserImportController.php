@@ -55,7 +55,7 @@ class UserImportController extends Controller
                 'phone' => $phone,
                 'password' => Hash::make('pa$$w0rd'), // Временный пароль
                 'department_id' => $department->id,
-                'role' => 'user',
+                'role' => 'employee',
             ]);
 
             $user->save();
