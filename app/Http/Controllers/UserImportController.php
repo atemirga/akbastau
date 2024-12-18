@@ -51,13 +51,13 @@ class UserImportController extends Controller
             // Создаем пользователя
             $user = User::create([
                 'name' => $name,
+                'email' => $phone.'@mail.ru',
                 'phone' => $phone,
-                'password' => Hash::make('password123'), // Временный пароль
+                'password' => Hash::make('pa$$w0rd'), // Временный пароль
                 'department_id' => $department->id,
+                'role' => 'user',
             ]);
 
-            // Назначаем роль (если роль ещё не создана, добавьте её логически)
-            $user->role = 'user'; // Указываем роль пользователя
             $user->save();
         }
 
