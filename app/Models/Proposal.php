@@ -32,5 +32,17 @@ class Proposal extends Model
     {
         return $this->hasMany(Comment::class);
     }
+
+    public function getStatusTextAttribute(): string
+    {
+        $statuses = [
+            'new' => 'Новое',
+            'in_review' => 'Ожидает',
+            'accepted' => 'Принято',
+            'rejected' => 'Отклонено'
+        ];
+
+        return $statuses[$this->status] ?? 'Неизвестный статус';
+    }
 }
 

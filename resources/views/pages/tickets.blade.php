@@ -21,7 +21,7 @@
                         </div>
                         <div class="col-12">
                             <div class="table-responsive">
-                                <table id="userTable" class="table align-items-center table-flush">
+                                <table id="ticketTable" class="table align-items-center table-flush">
                                     <thead class="thead-light">
                                     <tr>
                                         <th scope="col">Заголовок</th>
@@ -328,4 +328,27 @@
             alert('Изменение невозможно, так как предложение отклонено.');
         }
     </script>
+    <script>
+        $(document).ready(function() {
+            $('#ticketTable').DataTable({
+                dom: 'Bfrtip',
+                buttons: [
+                    {
+                        extend: 'excel',
+                        exportOptions: {
+                            columns: [0, 1, 2, 4, 6] // Индексы столбцов для экспорта (без действий и файла)
+                        }
+                    },
+                    {
+                        extend: 'pdf',
+                        exportOptions: {
+                            columns: [0, 1, 2, 4, 6] // Индексы столбцов для экспорта (без действий и файла)
+                        }
+                    }
+                ]
+            });
+        });
+
+    </script>
+
 @endpush

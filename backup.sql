@@ -82,7 +82,7 @@ CREATE TABLE `comments` (
   KEY `comments_user_id_foreign` (`user_id`),
   CONSTRAINT `comments_proposal_id_foreign` FOREIGN KEY (`proposal_id`) REFERENCES `proposals` (`id`) ON DELETE CASCADE,
   CONSTRAINT `comments_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -91,8 +91,35 @@ CREATE TABLE `comments` (
 
 LOCK TABLES `comments` WRITE;
 /*!40000 ALTER TABLE `comments` DISABLE KEYS */;
-INSERT INTO `comments` VALUES (1,1,1,'lsdsd','2024-11-06 08:29:44','2024-11-06 08:29:44'),(2,2,1,'Отколонн','2024-11-06 08:42:51','2024-11-06 08:42:51');
+INSERT INTO `comments` VALUES (3,7,1,'Причина','2024-11-08 08:36:41','2024-11-08 08:36:41'),(4,4,1,'Не соответсвует требованиям','2024-11-13 09:32:22','2024-11-13 09:32:22'),(5,4,1,'Не соответсвует требованиямывы','2024-11-14 05:24:41','2024-11-14 05:24:41');
 /*!40000 ALTER TABLE `comments` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `departments`
+--
+
+DROP TABLE IF EXISTS `departments`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `departments` (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `departments_name_unique` (`name`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `departments`
+--
+
+LOCK TABLES `departments` WRITE;
+/*!40000 ALTER TABLE `departments` DISABLE KEYS */;
+INSERT INTO `departments` VALUES (1,'IT- отдел','2024-11-08 01:07:29','2024-11-13 09:32:48'),(2,'Мониторинг','2024-11-08 08:32:13','2024-11-08 08:32:13'),(3,'Бурение','2024-11-08 08:32:26','2024-11-08 08:32:26');
+/*!40000 ALTER TABLE `departments` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -224,7 +251,7 @@ CREATE TABLE `migrations` (
   `migration` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `batch` int NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -233,7 +260,7 @@ CREATE TABLE `migrations` (
 
 LOCK TABLES `migrations` WRITE;
 /*!40000 ALTER TABLE `migrations` DISABLE KEYS */;
-INSERT INTO `migrations` VALUES (1,'0001_01_01_000000_create_users_table',1),(2,'0001_01_01_000001_create_cache_table',1),(3,'0001_01_01_000002_create_jobs_table',1),(4,'0001_01_01_113610_create_permission_tables',1),(5,'2024_10_26_060654_add_two_factor_columns_to_users_table',1),(6,'2024_10_26_060718_create_personal_access_tokens_table',1),(7,'2024_10_27_095548_create_proposals_table',1),(8,'2024_10_27_095549_create_comments_table',1),(9,'2024_10_27_095549_create_files_table',1),(10,'2024_10_27_095549_create_notifications_table',1);
+INSERT INTO `migrations` VALUES (1,'0001_01_01_000000_create_users_table',1),(2,'0001_01_01_000001_create_cache_table',1),(3,'0001_01_01_000002_create_jobs_table',1),(4,'0001_01_01_113610_create_permission_tables',1),(5,'2024_10_26_060654_add_two_factor_columns_to_users_table',1),(6,'2024_10_26_060718_create_personal_access_tokens_table',1),(7,'2024_10_27_095548_create_proposals_table',1),(8,'2024_10_27_095549_create_comments_table',1),(9,'2024_10_27_095549_create_files_table',1),(10,'2024_10_27_095549_create_notifications_table',1),(11,'2024_11_07_122625_create_departments_table',2);
 /*!40000 ALTER TABLE `migrations` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -424,7 +451,7 @@ CREATE TABLE `proposals` (
   PRIMARY KEY (`id`),
   KEY `proposals_user_id_foreign` (`user_id`),
   CONSTRAINT `proposals_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -433,7 +460,7 @@ CREATE TABLE `proposals` (
 
 LOCK TABLES `proposals` WRITE;
 /*!40000 ALTER TABLE `proposals` DISABLE KEYS */;
-INSERT INTO `proposals` VALUES (1,1,'aada','adfadsdfsdfsdf','dfsdf','accepted',NULL,'2024-11-06 07:18:58','2024-11-06 08:29:47'),(2,1,'Заголовок','Сотвоытво','ывщлЩВЛЫЩвошо','rejected',NULL,'2024-11-06 08:42:33','2024-11-06 08:42:51'),(3,1,'Ваааа','ывффв','ывыфвыфв','new',NULL,'2024-11-06 08:42:41','2024-11-06 08:42:41');
+INSERT INTO `proposals` VALUES (4,1,'Предложение 1','Предложение 1','Предложфв 1','rejected',NULL,'2024-11-08 08:35:25','2024-11-14 05:24:41'),(5,1,'Предложение 2','Предложение 2','Предложение 2','in_review',NULL,'2024-11-08 08:35:34','2024-11-08 08:36:29'),(6,1,'Предложение 3','Предложение 3','Предложение 3','accepted',NULL,'2024-11-08 08:35:45','2024-11-08 08:36:43'),(7,1,'Предложение 4','Предложение 4','Предложение 4','rejected',NULL,'2024-11-08 08:35:50','2024-11-08 08:36:41'),(8,1,'Предложение 1_1','Предложение 1_1','Предложение 1_1','in_review',NULL,'2024-11-08 08:35:59','2024-11-08 08:36:25'),(9,16,'Предложение от Асыла','Предложение от Асыла','Предложение от Асыла','in_review',NULL,'2024-11-13 09:35:44','2024-11-13 09:36:26');
 /*!40000 ALTER TABLE `proposals` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -517,7 +544,7 @@ CREATE TABLE `sessions` (
 
 LOCK TABLES `sessions` WRITE;
 /*!40000 ALTER TABLE `sessions` DISABLE KEYS */;
-INSERT INTO `sessions` VALUES ('2tX7tUYsXJcO5s5iS61zBFcRBtRpZngxA5JEIgpp',1,'127.0.0.1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36','YTo2OntzOjY6Il90b2tlbiI7czo0MDoidkVLUG55RHlUUEN1Yndwc001NDZEZHBTU3FOMVpzajB4YWxOZUFZWiI7czozOiJ1cmwiO2E6MDp7fXM6OToiX3ByZXZpb3VzIjthOjE6e3M6MzoidXJsIjtzOjI5OiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvdGlja2V0cyI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjE7czoyMToicGFzc3dvcmRfaGFzaF9zYW5jdHVtIjtzOjYwOiIkMnkkMTIkYWlyY2RuSjBRc1IyQng5a0NTcG5RLnJGZkNqdmNldzNTTXduUjNqU0RaSlFFMTEzRFYvR0siO30=',1730902896);
+INSERT INTO `sessions` VALUES ('1BshqhEbjMMupvAwwWWFGzAMFvzYWGQslm2gHch1',16,'127.0.0.1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36','YTo1OntzOjY6Il90b2tlbiI7czo0MDoiU2o3bXJSRkZYNFViUmppZkI0Rmp1RW1wanZwVmV4VmNtZ1hRRnVaaiI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6Mjk6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC90aWNrZXRzIjt9czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6MTY7czoyMToicGFzc3dvcmRfaGFzaF9zYW5jdHVtIjtzOjYwOiIkMnkkMTIkSk82Tk1YNDhMc2xWN1pVZW1FREQzZVN2dDBjNkMybDhiSDhZS21VZVdCSktIRGd0TC5pYTIiO30=',1731508593),('4FFYgC531SNZ07g5Z1bEWE36yW7WudSBZQXQjTop',1,'127.0.0.1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36','YTo1OntzOjY6Il90b2tlbiI7czo0MDoiT0FPNHQ5dmF5eXpJdXk1aVRSM3FuQVdNdUdnMzlrZDV2Y2ZXZmVoZSI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6Mjk6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC90aWNrZXRzIjt9czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6MTtzOjIxOiJwYXNzd29yZF9oYXNoX3NhbmN0dW0iO3M6NjA6IiQyeSQxMiRhaXJjZG5KMFFzUjJCeDlrQ1NwblEuckZmQ2p2Y2V3M1NNd25SM2pTRFpKUUUxMTNEVi9HSyI7fQ==',1731508586),('a5MTklyX0d8Y2FJq2XH8u9IqnygZtSwWtYArbgX6',NULL,'127.0.0.1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36','YTo0OntzOjY6Il90b2tlbiI7czo0MDoiVUhVZ3VZWlFYQU1UNTY5TndoNjh0Uk5ENmliNTkzOURzdlJWemN5eiI7czozOiJ1cmwiO2E6MTp7czo4OiJpbnRlbmRlZCI7czoyOToiaHR0cDovLzEyNy4wLjAuMTo4MDAwL3RpY2tldHMiO31zOjk6Il9wcmV2aW91cyI7YToxOntzOjM6InVybCI7czoyOToiaHR0cDovLzEyNy4wLjAuMTo4MDAwL3RpY2tldHMiO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX19',1731575210),('wpOLFhRwqMFLVpal0Cc3j55DiSjECjCZD53NK6pd',1,'127.0.0.1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36','YTo1OntzOjY6Il90b2tlbiI7czo0MDoiN216bzBnSDNYNGV2TklGYnptaGtkcHR2cjh3YWZxejlSMGhlVlhrMyI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9kYXNoYm9hcmQiO31zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aToxO3M6MjE6InBhc3N3b3JkX2hhc2hfc2FuY3R1bSI7czo2MDoiJDJ5JDEyJGFpcmNkbkowUXNSMkJ4OWtDU3BuUS5yRmZDanZjZXczU013blIzalNEWkpRRTExM0RWL0dLIjt9',1731581734);
 /*!40000 ALTER TABLE `sessions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -544,10 +571,13 @@ CREATE TABLE `users` (
   `profile_photo_path` varchar(2048) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
+  `department_id` bigint unsigned DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `users_email_unique` (`email`),
-  UNIQUE KEY `users_phone_unique` (`phone`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  UNIQUE KEY `users_phone_unique` (`phone`),
+  KEY `users_department_id_foreign` (`department_id`),
+  CONSTRAINT `users_department_id_foreign` FOREIGN KEY (`department_id`) REFERENCES `departments` (`id`) ON DELETE SET NULL
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -556,7 +586,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'Admin User','admin@test.kz',NULL,'$2y$12$aircdnJ0QsR2Bx9kCSpnQ.rFfCjvcew3SMwnR3jSDZJQE113DV/GK',NULL,NULL,NULL,NULL,NULL,'employee',NULL,NULL,'2024-11-06 07:17:23','2024-11-06 07:17:23'),(2,'Test User','test@example.com','2024-11-06 07:17:23','$2y$12$flyRTsaL7i6QejiXZYAp8uVk2Fg85aqHRJtm9O7ROjOTBmkjyJdsi',NULL,NULL,NULL,NULL,'4vsz7pRiwL','employee',NULL,NULL,'2024-11-06 07:17:24','2024-11-06 07:17:24');
+INSERT INTO `users` VALUES (1,'Admin User','admin@test.kz',NULL,'$2y$12$aircdnJ0QsR2Bx9kCSpnQ.rFfCjvcew3SMwnR3jSDZJQE113DV/GK',NULL,NULL,NULL,'+7 (707) 479-40-42',NULL,'admin',1,NULL,'2024-11-06 07:17:23','2024-11-08 05:52:51',NULL),(14,'Temirgali Abdualiyev','atemirga@gmail.com',NULL,'$2y$12$wT.oFy/cYi44OX2BAftuiOHCThlX4mbvVne38rylrRC.nFFrPXk7m',NULL,NULL,NULL,'+7 (707) 479-40-40',NULL,'employee',1,NULL,'2024-11-13 08:59:02','2024-11-13 09:09:59',NULL),(16,'Asyl','asyl@mail.ru',NULL,'$2y$12$JO6NMX48LslV7ZUemEDD3eSvt0c6C2l8bH8YKmUeWBJKHDgtL.ia2',NULL,NULL,NULL,'+7 (707) 479-40-41',NULL,'employee',3,NULL,'2024-11-13 09:33:37','2024-11-13 09:35:09',NULL);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -569,4 +599,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-11-06 20:00:19
+-- Dump completed on 2024-11-14 16:10:00

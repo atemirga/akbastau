@@ -149,7 +149,8 @@
                                 <label class="col-md-3 col-form-label">{{ __('Телефон') }}</label>
                                 <div class="col-md-9">
                                     <div class="form-group">
-                                        <input type="text" name="phone" class="form-control" placeholder="+7 (___) ___-__-__" id="phone" maxlength="18">
+
+                                        <input type="text" name="phone" class="form-control" value="{{ auth()->user()->phone }}" placeholder="+7 (___) ___-__-__" id="phone" maxlength="18">
                                     </div>
                                 </div>
                             </div>

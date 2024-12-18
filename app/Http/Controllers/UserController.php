@@ -27,19 +27,27 @@ class UserController extends Controller
 
 
 
-        //Создание пользователя с паролем по умолчанию
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'phone' => $request->phone,
-            'current_team_id' => $request->department_id, // Устанавливаем ID отдела
-            'role' => $request->role, // Устанавливаем роль напрямую
-            'password' => Hash::make('pa$$w0rd'), // Устанавливаем пароль по умолчанию
-        ]);
+        try {
+            // Создание пользователя
+            $user = User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'phone' => $request->phone,
+                'current_team_id' => $request->department_id,
+                'role' => $request->role,
+                'password' => Hash::make('pa$$w0rd'),
+            ]);
 
+            return redirect()->route('users.index')->with('success', 'Пользователь успешно создан с паролем pa$$w0rd.');
+        } catch (\Illuminate\Database\QueryException $e) {
+            // Если возникает ошибка дублирования
+            if ($e->getCode() === '23000') { // Код ошибки дублирования
+                return redirect()->route('users.index')->with('error', 'Ошибка: Такой номер телефона уже зарегистрирован.');
+            }
 
-        return redirect()->route('users.index')->with('success', 'Пользователь успешно создан с паролем pa$$w0rd.');
-
+            // Для других ошибок
+            return redirect()->route('users.index')->with('error', 'Произошла ошибка. Попробуйте еще раз.');
+        }
     }
 
 

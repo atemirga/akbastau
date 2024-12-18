@@ -34,22 +34,16 @@ class ProfileController extends Controller
     public function updatePassword(Request $request)
     {
         $request->validate([
-            'current_password' => 'required',
-            'new_password' => 'required|min:8|confirmed',
+            'old_password' => 'required',
+            'password' => 'required|confirmed|min:8',
         ]);
 
-        $user = auth()->user();
-
-        // Проверяем текущий пароль
-        if (!Hash::check($request->current_password, $user->password)) {
-            return back()->withErrors(['current_password' => 'Current password is incorrect']);
+        if (Hash::check($request->old_password, auth()->user()->password)) {
+            auth()->user()->update(['password' => Hash::make($request->password)]);
+            return redirect()->route('profile.edit')->with('status', 'Пароль успешно изменен.');
         }
 
-        // Обновляем пароль
-        $user->update([
-            'password' => Hash::make($request->new_password),
-        ]);
-
-        return back()->with('success', 'Password updated successfully');
+        return back()->withErrors(['old_password' => 'Старый пароль неверен.']);
     }
+
 }

@@ -12,8 +12,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/login', [CustomLoginController::class, 'showLoginForm'])->name('login');
-Route::post('/login', [CustomLoginController::class, 'login']);
+Route::post('/login', [CustomLoginController::class, 'login'])->name('login');
 
 Route::middleware([
     'auth:sanctum',
@@ -44,7 +43,7 @@ Route::middleware([
         ProfileController::class, 'update'
     ])->name('profile.update');
 
-    Route::post('/profile/password', [
+    Route::put('/profile/password', [
         ProfileController::class, 'updatePassword'
     ])->name('profile.password');
 

@@ -6,28 +6,18 @@
 @section('content')
     <div class="content">
         @if (session('success'))
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <div class="alert alert-success">
                 {{ session('success') }}
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
             </div>
         @endif
-            <!-- Сообщение об ошибках валидации -->
-            @if ($errors->any())
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <strong>Ошибки:</strong>
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-            @endif
-    <div class="container-fluid mt--7">
+
+        @if (session('error'))
+            <div class="alert alert-danger">
+                {{ session('error') }}
+            </div>
+        @endif
+
+        <div class="container-fluid mt--7">
         <div class="row">
             <div class="col">
                 <div class="card shadow">
@@ -56,11 +46,14 @@
                                 </thead>
                                 <tbody>
                                 @foreach($users as $user)
+                                    @if ($user->role === 'admin')
+                                        @continue
+                                    @endif
                                     <tr>
                                         <td>{{ $user->name }}</td>
                                         <td><a href="mailto:{{ $user->email }}">{{ $user->email }}</a></td>
                                         <td>{{ $user->phone ?? 'Не указан' }}</td>
-                                        <td>{{$user->department->name ?? 'Не указан' }}</td>
+                                        <td>{{ $user->department->name ?? 'Не указан' }}</td>
                                         <td>
                                             <button class="btn btn-sm btn-outline-primary"
                                                     data-toggle="modal"
@@ -126,7 +119,7 @@
                         <div class="form-group">
                             <label for="role">Роль</label>
                             <select class="form-control" id="role" name="role" required>
-                                <option value="admin">Админ</option>
+                                <!--<option value="admin">Админ</option>-->
                                 <option value="coordinator">Координатор</option>
                                 <option value="employee">Рядовой пользователь</option>
                             </select>
@@ -179,7 +172,7 @@
                         <div class="form-group">
                             <label for="edit_role">Роль</label>
                             <select class="form-control" id="edit_role" name="role" required>
-                                <option value="admin">Админ</option>
+                                <!--<option value="admin">Админ</option>-->
                                 <option value="coordinator">Координатор</option>
                                 <option value="employee">Рядовой пользователь</option>
                             </select>
@@ -241,6 +234,12 @@
             }
         }
 
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            $('#phone, #edit_phone').inputmask("+7 (999) 999-99-99"); // Применение маски к полям создания и редактирования
+        });
     </script>
 
 @endpush

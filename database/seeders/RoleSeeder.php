@@ -21,6 +21,7 @@ class RoleSeeder extends Seeder
             'name' => 'Admin User',
             'email' => 'admin@test.kz',
             'password' => Hash::make('pa$$w0rd'),
+            'role' => 'admin',
         ]);
 
         // Назначение роли админа пользователю

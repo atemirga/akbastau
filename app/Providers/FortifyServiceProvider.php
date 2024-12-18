@@ -14,6 +14,7 @@ use Illuminate\Support\Str;
 use Laravel\Fortify\Fortify;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Proposal;
 use Illuminate\Support\Facades\DB;
 
@@ -37,6 +38,19 @@ class FortifyServiceProvider extends ServiceProvider
             return view('auth.login');
         });
 
+
+        Fortify::authenticateUsing(function (Request $request) {
+            // Проверка, является ли поле email или phone
+            $loginField = filter_var($request->login, FILTER_VALIDATE_EMAIL) ? 'email' : 'phone';
+
+            $user = User::where($loginField, $request->login)->first();
+
+            if ($user && Auth::attempt([$loginField => $request->login, 'password' => $request->password])) {
+                return $user;
+            }
+            return null;
+        });
+        /**
         // Кастомная логика аутентификации
         Fortify::authenticateUsing(function (Request $request) {
             // Настройка кастомной валидации, чтобы использовать 'login' вместо 'email'
@@ -58,7 +72,7 @@ class FortifyServiceProvider extends ServiceProvider
             }
 
             return null;
-        });
+        }); **/
         Fortify::createUsersUsing(CreateNewUser::class);
         Fortify::updateUserProfileInformationUsing(UpdateUserProfileInformation::class);
         Fortify::updateUserPasswordsUsing(UpdateUserPassword::class);
