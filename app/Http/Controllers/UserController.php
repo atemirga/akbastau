@@ -18,6 +18,7 @@ class UserController extends Controller
 
     public function store(Request $request)
     {
+        set_time_limit(300); // Увеличивает время выполнения до 300 секунд
         // Валидация данных
         $request->validate([
             'name' => 'required|string|max:255',

@@ -33,7 +33,8 @@ class UserImportController extends Controller
 
             $name = $row[0]; // ФИО
             $position = $row[1]; // Должность
-            $phone = $row[2]; // Телефон
+            $phone = formatPhoneNumber($row[2]);
+            //$phone = $row[2]; // Телефон
             $departmentName = $row[3]; // Отдел
 
             // Проверка, существует ли отдел
@@ -62,5 +63,24 @@ class UserImportController extends Controller
         }
 
         return back()->with('success', 'Данные успешно импортированы.');
+    }
+
+    function formatPhoneNumber($phone)
+    {
+        // Удаляем все символы, кроме цифр
+        $cleaned = preg_replace('/[^0-9]/', '', $phone);
+
+        // Если номер не содержит нужное количество цифр, возвращаем его как есть
+        if (strlen($cleaned) !== 11) {
+            return $phone;
+        }
+
+        // Разбиваем номер на части и форматируем
+        return sprintf('+7 (%s) %s-%s-%s',
+            substr($cleaned, 1, 3), // Код оператора
+            substr($cleaned, 4, 3), // Первая часть номера
+            substr($cleaned, 7, 2), // Вторая часть номера
+            substr($cleaned, 9, 2)  // Третья часть номера
+        );
     }
 }
