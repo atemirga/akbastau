@@ -44,7 +44,7 @@ class CustomLoginController extends Controller
         // Определяем, является ли login email или телефоном
         if (!filter_var($login, FILTER_VALIDATE_EMAIL)) {
             // Предполагаем, что это номер телефона, и форматируем его
-            $login = formatPhoneNumber($login);
+            $login = $this->formatPhoneNumber($login);
         }
 
         $user = filter_var($login, FILTER_VALIDATE_EMAIL)
