@@ -27,9 +27,31 @@ class CustomLoginController extends Controller
         $password = $request->input('password');
 
         // Определяем, является ли login email или телефоном
+        if (!filter_var($login, FILTER_VALIDATE_EMAIL)) {
+            // Предполагаем, что это номер телефона, и форматируем его
+            $login = formatPhoneNumber($login);
+        }
+
         $user = filter_var($login, FILTER_VALIDATE_EMAIL)
             ? User::where('email', $login)->first()
             : User::where('phone', $login)->first();
+
+        /**
+         * Форматирование номера телефона в виде +7 (XXX) XXX-XX-XX
+         */
+        function formatPhoneNumber($phone)
+        {
+            // Убираем все лишние символы из строки
+            $digits = preg_replace('/\D/', '', $phone);
+
+            // Преобразуем номер, если он соответствует формату 8707... или 7707...
+            if (preg_match('/^8?(707|700|701|702|705|707|777|747|727|776|778|747|747|750|751)(\d{3})(\d{2})(\d{2})$/', $digits, $matches)) {
+                return "+7 ({$matches[1]}) {$matches[2]}-{$matches[3]}-{$matches[4]}";
+            }
+
+            // Возвращаем номер без изменений, если формат не подходит
+            return $phone;
+        }
 
         if ($user && Hash::check($password, $user->password)) {
             Auth::login($user);
