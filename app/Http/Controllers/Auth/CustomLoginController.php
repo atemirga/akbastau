@@ -66,7 +66,7 @@ class CustomLoginController extends Controller
         }
 
         return back()->withErrors([
-            'login' => 'Неверные учетные данные.',
+            'login' => 'Неверные учетные данные.'.$login,
         ]);
     }
 }
