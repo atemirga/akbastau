@@ -16,18 +16,18 @@ class CustomLoginController extends Controller
     }
 
     private function formatPhoneNumber($phone)
-        {
-            // Убираем все лишние символы из строки
-            $digits = preg_replace('/\D/', '', $phone);
+    {
+        // Убираем все лишние символы из строки
+        $digits = preg_replace('/\D/', '', $phone);
 
-            // Преобразуем номер, если он соответствует формату 8707... или 7707...
-            if (preg_match('/^8?(707|700|701|702|705|707|777|747|727|776|778|747|747|750|751)(\d{3})(\d{2})(\d{2})$/', $digits, $matches)) {
-                return "+7 ({$matches[1]}) {$matches[2]}-{$matches[3]}-{$matches[4]}";
-            }
-
-            // Возвращаем номер без изменений, если формат не подходит
-            return $phone;
+        // Проверяем и форматируем номер, если он соответствует казахстанскому формату
+        if (preg_match('/^(?:8|7)?(7\d{2})(\d{3})(\d{2})(\d{2})$/', $digits, $matches)) {
+            return "+7 ({$matches[1]}) {$matches[2]}-{$matches[3]}-{$matches[4]}";
         }
+
+        // Возвращаем номер без изменений, если формат не подходит
+        return $phone;
+    }
 
 
     public function login(Request $request)
