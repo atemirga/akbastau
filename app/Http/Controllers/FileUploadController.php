@@ -20,7 +20,7 @@ class FileUploadController extends Controller
         $files = $request->file('files');
 
         if (!$files) {
-            return response()->json(['message' => 'No files uploaded'], 400);
+            return response()->json(['message' => 'Файлы не загружены'], 400);
         }
 
         // Путь к директории storage/files
@@ -46,7 +46,7 @@ class FileUploadController extends Controller
             $uploadedFiles[] = $fileName;
         }
 
-        return response()->json(['message' => 'Files uploaded successfully', 'files' => $uploadedFiles]);
+        return response()->json(['message' => 'Файлы успешно загружены', 'files' => $uploadedFiles]);
     }
 
 

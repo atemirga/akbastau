@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Upload Files</title>
+    <title>Загрузка файлов</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/min/dropzone.min.css">
     <style>
         body { font-family: Arial, sans-serif; margin: 20px; }
@@ -11,7 +11,7 @@
     </style>
 </head>
 <body>
-    <h1>Upload Multiple Files</h1>
+    <h1>Загрузка расчетных листов</h1>
     <form action="{{ route('upload.files') }}" class="dropzone" id="fileDropzone" method="POST" enctype="multipart/form-data">
         @csrf
     </form>
