@@ -5,28 +5,18 @@
                 <img src="{{ asset('paper') }}/img/logo-small.png">
             </div>
         </a>
-        @if(auth()->user()->role === 'admin')
         <a href="{{ route('dashboard') }}" class="simple-text logo-normal">
             {{ __('Оптимус') }}
         </a>
-        @endif
-        @if(auth()->user()->role !== 'admin')
-        <a href="{{ route('tickets.index') }}" class="simple-text logo-normal">
-            {{ __('Оптимус') }}
-        </a>
-        @endif
-
     </div>
     <div class="sidebar-wrapper">
         <ul class="nav">
-            @if(auth()->user()->role === 'admin')
             <li class="{{ $elementActive == 'dashboard' ? 'active' : '' }}">
                 <a href="{{ route('dashboard') }}">
                     <i class="nc-icon nc-bank"></i>
                     <p>{{ __('Панель управления') }}</p>
                 </a>
             </li>
-            @endif
             <li class="{{ $elementActive == 'tickets' ? 'active' : '' }}">
                 <a href="{{ route('tickets.index') }}">
                     <i class="nc-icon nc-paper"></i> <!-- Обновите иконку, если нужно -->

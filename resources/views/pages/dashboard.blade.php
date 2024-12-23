@@ -18,7 +18,13 @@
                             <div class="col-7 col-md-8">
                                 <div class="numbers">
                                     <p class="card-category">Предложения</p>
-                                    <p class="card-title">{{App\Models\Proposal::all()->count()}}</p>
+                                    <p class="card-title">
+                                        @if(auth()->user()->role === 'admin') 
+                                            {{ App\Models\Proposal::all()->count() }}
+                                        @else 
+                                            {{ App\Models\Proposal::where('user_id', auth()->id())->count() }}
+                                        @endif
+                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -43,7 +49,14 @@
                             <div class="col-7 col-md-8">
                                 <div class="numbers">
                                     <p class="card-category">Одобрено</p>
-                                    <p class="card-title">{{App\Models\Proposal::where('status', 'accepted')->count()}}</p> <!-- Обновлено значение в блоке -->
+                                    <p class="card-title">
+                                        @if(auth()->user()->role === 'admin') 
+                                            {{ App\Models\Proposal::where('status', 'accepted')->count() }}
+                                        @else 
+                                            {{ App\Models\Proposal::where('user_id', auth()->id())->where('status', 'accepted')->count() }}
+                                        @endif
+                                    </p>
+                                    <!-- Обновлено значение в блоке -->
                                 </div>
                             </div>
                         </div>
@@ -68,7 +81,14 @@
                             <div class="col-7 col-md-8">
                                 <div class="numbers">
                                     <p class="card-category">Ожидает</p>
-                                    <p class="card-title">{{App\Models\Proposal::where('status', 'in_review')->count()}}</p> <!-- Количество "на рассмотрении" -->
+                                    <p class="card-title">
+                                        @if(auth()->user()->role === 'admin') 
+                                            {{ App\Models\Proposal::where('status', 'in_review')->count() }}
+                                        @else 
+                                            {{ App\Models\Proposal::where('user_id', auth()->id())->where('status', 'in_review')->count() }}
+                                        @endif
+                                    </p>
+                                    <!-- Количество "на рассмотрении" -->
                                 </div>
                             </div>
                         </div>
@@ -93,7 +113,14 @@
                             <div class="col-7 col-md-8">
                                 <div class="numbers">
                                     <p class="card-category">Отклонено</p>
-                                    <p class="card-title">{{App\Models\Proposal::where('status', 'rejected')->count()}}</p> <!-- Количество отклонённых предложений -->
+                                    <p class="card-title">
+                                        @if(auth()->user()->role === 'admin') 
+                                            {{ App\Models\Proposal::where('status', 'rejected')->count() }}
+                                        @else 
+                                            {{ App\Models\Proposal::where('user_id', auth()->id())->where('status', 'rejected')->count() }}
+                                        @endif
+                                    </p>
+                                    <!-- Количество отклонённых предложений -->
                                 </div>
                             </div>
                         </div>

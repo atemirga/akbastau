@@ -54,13 +54,15 @@ class CustomLoginController extends Controller
 
         if ($user && Hash::check($password, $user->password)) {
             Auth::login($user);
+
+            /*
             if (auth()->user()->role !== 'admin') {
                 return redirect()->intended('/tickets'); // перенаправление на страницу после входа
                 //abort(403, 'У вас нет доступа к этой странице.');
             }else{
                 //abort(403, 'У вас нет доступа к этой странице.');
                 return redirect()->intended('/dashboard'); // перенаправление на страницу после входа
-            }
+            }*/
 
             //return redirect()->intended('/dashboard'); // перенаправление на страницу после входа
         }
