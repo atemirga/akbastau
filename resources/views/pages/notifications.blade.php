@@ -5,171 +5,129 @@
 
 @section('content')
     <div class="content">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-header">
-                        <h5 class="card-title">Notifications</h5>
-                        <p class="card-category">Handcrafted by our friend
-                            <a target="_blank" href="https://github.com/mouse0270">Robert McIntosh</a>. Please checkout the
-                            <a href="http://bootstrap-notify.remabledesigns.com/" target="_blank">full documentation.</a>
-                        </p>
-                    </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="card card-plain">
-                                    <div class="card-header">
-                                        <h5 class="card-title">Notifications Style</h5>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="alert alert-info">
-                                            <span>This is a plain notification</span>
-                                        </div>
-                                        <div class="alert alert-info alert-dismissible fade show">
-                                            <button type="button" aria-hidden="true" class="close" data-dismiss="alert"
-                                                aria-label="Close">
-                                                <i class="nc-icon nc-simple-remove"></i>
-                                            </button>
-                                            <span>This is a notification with close button.</span>
-                                        </div>
-                                        <div class="alert alert-info alert-with-icon alert-dismissible fade show"
-                                            data-notify="container">
-                                            <button type="button" aria-hidden="true" class="close" data-dismiss="alert"
-                                                aria-label="Close">
-                                                <i class="nc-icon nc-simple-remove"></i>
-                                            </button>
-                                            <span data-notify="icon" class="nc-icon nc-bell-55"></span>
-                                            <span data-notify="message">This is a notification with close button and
-                                                icon.</span>
-                                        </div>
-                                        <div class="alert alert-info alert-with-icon alert-dismissible fade show"
-                                            data-notify="container">
-                                            <button type="button" aria-hidden="true" class="close" data-dismiss="alert"
-                                                aria-label="Close">
-                                                <i class="nc-icon nc-simple-remove"></i>
-                                            </button>
-                                            <span data-notify="icon" class="nc-icon nc-chart-pie-36"></span>
-                                            <span data-notify="message">This is a notification with close button and icon
-                                                and have many lines. You can see that the icon and the close button are
-                                                always vertically aligned. This is a beautiful notification. So you don't
-                                                have to worry about the style.</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="card card-plain">
-                                    <div class="card-header">
-                                        <h5 class="card-title">Notification states</h5>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="alert alert-primary alert-dismissible fade show">
-                                            <button type="button" aria-hidden="true" class="close" data-dismiss="alert"
-                                                aria-label="Close">
-                                                <i class="nc-icon nc-simple-remove"></i>
-                                            </button>
-                                            <span>
-                                                <b> Primary - </b> This is a regular notification made with
-                                                ".alert-primary"</span>
-                                        </div>
-                                        <div class="alert alert-info alert-dismissible fade show">
-                                            <button type="button" aria-hidden="true" class="close" data-dismiss="alert"
-                                                aria-label="Close">
-                                                <i class="nc-icon nc-simple-remove"></i>
-                                            </button>
-                                            <span>
-                                                <b> Info - </b> This is a regular notification made with
-                                                ".alert-info"</span>
-                                        </div>
-                                        <div class="alert alert-success alert-dismissible fade show">
-                                            <button type="button" aria-hidden="true" class="close" data-dismiss="alert"
-                                                aria-label="Close">
-                                                <i class="nc-icon nc-simple-remove"></i>
-                                            </button>
-                                            <span>
-                                                <b> Success - </b> This is a regular notification made with
-                                                ".alert-success"</span>
-                                        </div>
-                                        <div class="alert alert-warning alert-dismissible fade show">
-                                            <button type="button" aria-hidden="true" class="close" data-dismiss="alert"
-                                                aria-label="Close">
-                                                <i class="nc-icon nc-simple-remove"></i>
-                                            </button>
-                                            <span>
-                                                <b> Warning - </b> This is a regular notification made with
-                                                ".alert-warning"</span>
-                                        </div>
-                                        <div class="alert alert-danger alert-dismissible fade show">
-                                            <button type="button" aria-hidden="true" class="close" data-dismiss="alert"
-                                                aria-label="Close">
-                                                <i class="nc-icon nc-simple-remove"></i>
-                                            </button>
-                                            <span>
-                                                <b> Danger - </b> This is a regular notification made with
-                                                ".alert-danger"</span>
-                                        </div>
-                                    </div>
+        <div class="container-fluid mt--7">
+            <div class="row">
+                <div class="col">
+                    <div class="card shadow">
+                        <div class="card-header border-0">
+                            <div class="row align-items-center">
+                                <div class="col-8">
+                                    <h3 class="mb-0">Уведомления</h3>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="places-buttons">
-                            <div class="row">
-                                <div class="col-md-6 ml-auto mr-auto text-center">
-                                    <h4 class="card-title">
-                                        Notifications Places
-                                        <p class="category">Click to view notifications</p>
-                                    </h4>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-lg-8 ml-auto mr-auto">
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <button class="btn btn-primary btn-block"
-                                                onclick="demo.showNotification('top','left')">Top Left</button>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <button class="btn btn-primary btn-block"
-                                                onclick="demo.showNotification('top','center')">Top Center</button>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <button class="btn btn-primary btn-block"
-                                                onclick="demo.showNotification('top','right')">Top Right</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-lg-8 ml-auto mr-auto">
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <button class="btn btn-primary btn-block"
-                                                onclick="demo.showNotification('bottom','left')">Bottom Left</button>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <button class="btn btn-primary btn-block"
-                                                onclick="demo.showNotification('bottom','center')">Bottom Center</button>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <button class="btn btn-primary btn-block"
-                                                onclick="demo.showNotification('bottom','right')">Bottom Right</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                        <div class="col-12">
+                            @if($notifications->isEmpty())
+                                <p>У вас нет уведомлений.</p>
+                            @else
+                                <ul class="list-group">
+                                    @foreach($notifications as $notification)
+                                        <li class="list-group-item {{ $notification->is_read ? '' : 'font-weight-bold' }}">
+                                            <a href="#" 
+                                               class="notification-link" 
+                                               data-id="{{ $notification->id }}" 
+                                               data-proposal="{{ json_encode($notification->proposal) }}">
+                                                {{ $notification->message }}
+                                            </a>
+                                            <small class="text-muted">{{ $notification->created_at->diffForHumans() }}</small>
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            @endif
+                        </div>
+                        <div class="card-footer py-4">
+                            <nav class="d-flex justify-content-end" aria-label="...">
+
+                            </nav>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+<!-- Модальное окно -->
+<div class="modal fade" id="proposalModal" tabindex="-1" role="dialog" aria-labelledby="proposalModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="proposalModalLabel">Детали предложения</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Закрыть">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Информация о предложении -->
+                <p><strong>Заголовок:</strong> <span id="proposal-title"></span></p>
+                <p><strong>Текущее состояние:</strong> <span id="proposal-current-state"></span></p>
+                <p><strong>Будущее состояние:</strong> <span id="proposal-future-state"></span></p>
+                <p><strong>Файлы:</strong> <span id="proposal-files"></span></p>
+            </div>
+            @if(auth()->user()->role === "admin")
+                <div class="modal-footer">
+                    <button class="btn btn-primary" id="status-in-review">Принять</button>
+                </div>
+            @endif
+        </div>
+    </div>
+</div>
+
 @endsection
+
+@push('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+    let activeNotificationId;
+
+    // Открытие модального окна с заполнением данных
+    document.querySelectorAll('.notification-link').forEach(link => {
+        link.addEventListener('click', function (e) {
+            e.preventDefault();
+
+            activeNotificationId = this.dataset.id; // Сохраняем ID уведомления
+            const proposal = JSON.parse(this.dataset.proposal);
+
+            // Заполняем модальное окно
+            document.getElementById('proposal-title').textContent = proposal.title;
+            document.getElementById('proposal-current-state').textContent = proposal.current_state;
+            document.getElementById('proposal-future-state').textContent = proposal.future_state;
+
+            let filesHtml = '';
+            proposal.files.forEach(file => {
+                filesHtml += `<a href="/storage/${file.file_path}" target="_blank">Скачать файл</a><br>`;
+            });
+            document.getElementById('proposal-files').innerHTML = filesHtml;
+
+            // Открываем модальное окно
+            $('#proposalModal').modal('show');
+
+            // Помечаем уведомление как прочитанное
+            fetch(`/notifications/${activeNotificationId}/mark-as-read`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                    'Content-Type': 'application/json',
+                },
+            });
+        });
+    });
+
+    // Обработчик для кнопки "Принять"
+    document.getElementById('status-in-review').addEventListener('click', function () {
+        fetch(`/notifications/${activeNotificationId}/update-status`, {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ status: 'in_review' }),
+        }).then(() => {
+            $('#proposalModal').modal('hide');
+            location.reload(); // Обновляем страницу после изменения статуса
+        });
+    });
+});
+
+</script>
+@endpush
+

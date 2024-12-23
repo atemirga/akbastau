@@ -8,13 +8,29 @@ use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\Auth\CustomLoginController;
 use App\Http\Controllers\UserImportController;
 use App\Http\Controllers\PDFGeneratorController;
-
+use App\Http\Controllers\FileUploadController;
+use App\Http\Controllers\NotificationController;
 
 
 Route::get('/', function () {
     return view('welcome');
 });
 
+
+//Route::get('/notifications', [NotificationController::class, 'index'])->name('pages.notifications');
+
+Route::get('/files/{fileName}', function ($fileName) {
+    $filePath = storage_path("files/{$fileName}");
+
+    if (!file_exists($filePath)) {
+        abort(404, 'Файл не найден.');
+    }
+
+    return response()->file($filePath);
+})->name('files.download');
+
+Route::get('/upload-files', [FileUploadController::class, 'showUploadForm'])->name('upload.files.form');
+Route::post('/upload-files', [FileUploadController::class, 'uploadFiles'])->name('upload.files');
 Route::get('/generate-pdfs', [PDFGeneratorController::class, 'generatePDFs']);
 Route::get('/import-users', [UserImportController::class, 'importForm'])->name('import.form');
 Route::post('/import-users', [UserImportController::class, 'import'])->name('import');
@@ -76,5 +92,12 @@ Route::middleware([
         Route::post('/store', [DepartmentController::class, 'store'])->name('store'); // Сохранение нового отдела
         Route::put('/{department}', [DepartmentController::class, 'update'])->name('update'); // Обновление отдела
         Route::delete('/{department}', [DepartmentController::class, 'destroy'])->name('destroy'); // Удаление отдела
+    });
+
+    Route::prefix('notifications')->name('notifications.')->group(function () {
+        Route::get('/', [NotificationController::class, 'index'])->name('index'); // Показ всех предложений
+        Route::post('/{notification}/mark-as-read', [NotificationController::class, 'markAsRead'])->name('markAsRead');
+        Route::post('/{notification}/update-status', [NotificationController::class, 'updateProposalStatus'])->name('updateProposalStatus');
+                
     });
 });

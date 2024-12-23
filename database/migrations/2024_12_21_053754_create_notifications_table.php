@@ -9,18 +9,18 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
+    public function up()
     {
         Schema::create('notifications', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->enum('type', ['email', 'push']);
-            $table->text('message');
-            $table->boolean('status')->default(false); // false = not sent, true = sent
+            $table->foreignId('user_id')->constrained()->onDelete('cascade'); // Пользователь, которому принадлежит уведомление
+            $table->foreignId('proposal_id')->constrained()->onDelete('cascade'); // Связанное предложение
+            $table->string('message'); // Сообщение уведомления
+            $table->boolean('is_read')->default(false); // Статус прочтения
             $table->timestamps();
         });
-
     }
+
 
     /**
      * Reverse the migrations.

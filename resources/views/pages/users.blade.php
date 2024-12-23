@@ -41,6 +41,7 @@
                                     <th scope="col">Почта</th>
                                     <th scope="col">Телефон</th>
                                     <th scope="col">Отдел</th>
+                                    <th scope="col">Расчетный лист</th>
                                     <th scope="col">Действие</th>
                                 </tr>
                                 </thead>
@@ -54,6 +55,21 @@
                                         <td><a href="mailto:{{ $user->email }}">{{ $user->email }}</a></td>
                                         <td>{{ $user->phone ?? 'Не указан' }}</td>
                                         <td>{{ $user->department->name ?? 'Не указан' }}</td>
+                                        <td>
+                                            @php
+                                                $fileName = str_replace(' ', '', $user->name) . '.pdf'; // Убираем пробелы из имени пользователя
+                                                $filePath = storage_path("files/{$fileName}");
+                                            @endphp
+
+                                            @if (file_exists($filePath))
+                                                 <a href="{{ route('files.download', ['fileName' => $fileName]) }}" target="_blank">
+                                                    {{ $fileName }}
+                                                </a>
+                                            @else
+                                                <span class="text-danger">Нет файла</span>
+                                            @endif
+                                        </td>
+
                                         <td>
                                             <button class="btn btn-sm btn-outline-primary"
                                                     data-toggle="modal"

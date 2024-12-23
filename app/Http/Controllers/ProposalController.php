@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Proposal;
 use App\Models\User;
+use App\Models\Notification;
+
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -21,11 +23,11 @@ class ProposalController extends Controller
         return view('pages.tickets', compact('proposals')); //Передаем переменную в представление
     }
 
-
+    /*
     public function store(Request $request)
     {
         // Валидация данных
-        $request->validate([
+        $data = $request->validate([
             'title' => 'required|string|max:255',
             'current_state' => 'required|string',
             'future_state' => 'required|string',
@@ -43,11 +45,90 @@ class ProposalController extends Controller
             'title' => $request->title,
             'current_state' => $request->current_state,
             'future_state' => $request->future_state,
-            'file_path' => $filePath, // Сохранение пути к файлу
+            'file' => $filePath, // Сохранение пути к файлу
         ]);
 
         return redirect()->route('tickets.index')->with('success', 'Proposal submitted successfully.');
     }
+    */
+
+    /*
+    public function store(Request $request)
+    {
+        // Валидируем данные
+        $data = $request->validate([
+            'title' => 'required|string|max:255',
+            'current_state' => 'required|string',
+            'future_state' => 'required|string',
+            'files.*' => 'nullable|file|mimes:pdf,doc,docx,jpg,png|max:2048', // Валидация каждого файла
+        ]);
+
+        // Создаём предложение
+        $proposal = Auth::user()->proposals()->create([
+            'title' => $request->title,
+            'current_state' => $request->current_state,
+            'future_state' => $request->future_state,
+        ]);
+
+        // Сохраняем файлы, если они есть
+        if ($request->hasFile('files')) {
+            foreach ($request->file('files') as $file) {
+                $filePath = $file->store('proposals_files', 'public'); // Сохраняем файл в папку
+                $proposal->files()->create(['file_path' => $filePath]); // Сохраняем запись в БД
+            }
+        }
+
+        return redirect()->route('tickets.index')->with('success', 'Предложение успешно создано.');
+    }
+    */
+    public function store(Request $request)
+    {
+        // Валидируем данные
+        $data = $request->validate([
+            'title' => 'required|string|max:255',
+            'current_state' => 'required|string',
+            'future_state' => 'required|string',
+            'files.*' => 'nullable|file|mimes:pdf,doc,docx,jpg,png|max:2048', // Валидация каждого файла
+        ]);
+
+        // Создаём предложение
+        $proposal = Auth::user()->proposals()->create([
+            'title' => $request->title,
+            'current_state' => $request->current_state,
+            'future_state' => $request->future_state,
+        ]);
+
+        // Сохраняем файлы, если они есть
+        if ($request->hasFile('files')) {
+            foreach ($request->file('files') as $file) {
+                $filePath = $file->store('proposals_files', 'public');
+                $proposal->files()->create(['file_path' => $filePath]);
+            }
+        }
+
+        // Уведомление для создателя
+        Notification::create([
+            'user_id' => $proposal->user_id,
+            'proposal_id' => $proposal->id,
+            'message' => "Вы создали предложение \"{$proposal->title}\".",
+        ]);
+
+        // Уведомление для администратора
+        $admin = User::where('role', 'admin')->first();
+        if ($admin && $admin->id !== $proposal->user_id) {
+            Notification::create([
+                'user_id' => $admin->id,
+                'proposal_id' => $proposal->id,
+                'message' => "Создано новое предложение на тему: \"{$proposal->title}\".",
+            ]);
+        }
+
+        return redirect()->route('tickets.index')->with('success', 'Предложение успешно создано.');
+    }
+
+
+
+
 
 
     public function show($id)
@@ -62,6 +143,8 @@ class ProposalController extends Controller
 
         return view('proposals.show', compact('proposal'));
     }
+
+
 
     public function edit($id)
     {
@@ -123,19 +206,21 @@ class ProposalController extends Controller
 
     public function updateStatus(Request $request, Proposal $proposal)
     {
-        // Проверка прав
-        //if (!auth()->user()->hasRole('admin')) {
-        //    return response()->json(['success' => false, 'message' => 'Недостаточно прав.'], 403);
-        //}
+        // Проверяем, что пользователь является администратором
+        if (auth()->user()->role !== 'admin') {
+            return response()->json(['success' => false, 'message' => 'Недостаточно прав.'], 403);
+        }
 
+        // Валидация запроса
         $request->validate([
-            'status' => 'required|in:new,in_review,accepted,rejected',
-            'comments' => 'nullable|string|max:255'
+            'status' => 'required|in:new,in_review,accepted,rejected', // Допустимые статусы
+            'comments' => 'nullable|string|max:255' // Комментарий при отклонении
         ]);
 
+        // Обновляем статус предложения
         $proposal->status = $request->status;
 
-        // Сохраняем комментарий, если он есть
+        // Сохраняем комментарий, если предложение отклонено
         if ($request->status === 'rejected' && $request->comments) {
             $proposal->comments()->create([
                 'user_id' => auth()->id(),
@@ -145,7 +230,27 @@ class ProposalController extends Controller
 
         $proposal->save();
 
+        // Уведомление для создателя
+        Notification::create([
+            'user_id' => $proposal->user_id,
+            'proposal_id' => $proposal->id,
+            'message' => "Статус вашего предложения \"{$proposal->title}\" изменён на \"{$request->status}\".",
+        ]);
+
+        // Уведомление для администратора
+        $admin = User::where('role', 'admin')->first();
+        if ($admin && $admin->id !== $proposal->user_id) {
+            Notification::create([
+                'user_id' => $admin->id,
+                'proposal_id' => $proposal->id,
+                'message' => "Предложение по теме: \"{$proposal->title}\" изменило статус на: \"{$request->status}\".",
+            ]);
+        }
+
         return response()->json(['success' => true]);
     }
+
+
+
 }
 

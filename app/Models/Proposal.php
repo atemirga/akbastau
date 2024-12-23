@@ -44,5 +44,16 @@ class Proposal extends Model
 
         return $statuses[$this->status] ?? 'Неизвестный статус';
     }
+
+    public function files(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(ProposalFile::class);
+    }
+
+    public function notifications(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Notification::class);
+    }
+
 }
 

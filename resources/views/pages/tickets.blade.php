@@ -59,10 +59,12 @@
                                             <td>{{ $proposal->current_state }}</td>
                                             <td>{{ $proposal->future_state }}</td>
                                             <td>
-                                                @if($proposal->file_path)
-                                                    <a href="{{ asset('storage/' . $proposal->file_path) }}" target="_blank">Файл</a>
+                                                @if($proposal->files->count())
+                                                    @foreach($proposal->files as $file)
+                                                        <a href="{{ asset('storage/' . $file->file_path) }}" target="_blank">Файл {{ $loop->iteration }}</a><br>
+                                                    @endforeach
                                                 @else
-                                                    Нет файла
+                                                    Нет файлов
                                                 @endif
                                             </td>
                                             <td>{{ $proposal->user->name ?? 'Неизвестный' }}</td>
@@ -134,8 +136,9 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form action="{{ route('tickets.store') }}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('tickets.store') }}" method="POST" enctype="multipart/form-data" id="main-form">
                         @csrf
+                        <!-- Поле для заголовка -->
                         <div class="form-group">
                             <label for="title">Заголовок</label>
                             <input type="text" class="form-control @error('title') is-invalid @enderror" id="title" name="title" required>
@@ -145,6 +148,8 @@
                             </span>
                             @enderror
                         </div>
+
+                        <!-- Поле для текущего состояния -->
                         <div class="form-group">
                             <label for="current_state">Текущее состояние</label>
                             <textarea class="form-control @error('current_state') is-invalid @enderror" id="current_state" name="current_state" rows="3" required></textarea>
@@ -154,6 +159,8 @@
                             </span>
                             @enderror
                         </div>
+
+                        <!-- Поле для будущего состояния -->
                         <div class="form-group">
                             <label for="future_state">Будущее состояние</label>
                             <textarea class="form-control @error('future_state') is-invalid @enderror" id="future_state" name="future_state" rows="3" required></textarea>
@@ -163,20 +170,38 @@
                             </span>
                             @enderror
                         </div>
+                    
+                        <!-- Dropzone для загрузки файлов -->
+                        <!--
                         <div class="form-group">
-                            <label for="file">Прикрепить файл</label>
-                            <input type="file" class="form-control @error('file') is-invalid @enderror" id="file" name="file" accept=".pdf, .doc, .docx, .jpg, .png">
-                            @error('file')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                            @enderror
+                            <label for="files">Прикрепить файлы</label>
+                            <div class="dropzone" id="file-dropzone">
+                                <div class="dz-message" data-dz-message>
+                                    <span>Перетащите файлы сюда или нажмите, чтобы выбрать файлы (максимум 10)</span>
+                                </div>
+                            </div>
                         </div>
+                        -->
+                        <!-- Поле для загрузки файлов -->
+                        <div class="form-group">
+                            <label for="files">Прикрепить файлы (до 10 файлов)</label>
+                            <input type="file" class="form-control" id="files" name="files[]" multiple accept=".pdf,.doc,.docx,.jpg,.png">
+
+                            <!-- Список выбранных файлов -->
+                            <div id="file-list" class="mt-3">
+                                <!-- Здесь будут отображаться выбранные файлы -->
+                            </div>
+
+                            <!-- Кнопка для загрузки -->
+                            <button type="button" class="btn btn-primary mt-3" id="upload-button" disabled>Загрузить</button>
+                        </div>
+                        <!-- Кнопки -->
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
                             <button type="submit" class="btn btn-primary">Сохранить</button>
                         </div>
                     </form>
+
                 </div>
             </div>
         </div>
@@ -192,7 +217,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form id="editProposalForm" method="POST" action="">
+                    <form id="editProposalForm" method="POST" action="" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
                         <div class="form-group">
@@ -206,6 +231,15 @@
                         <div class="form-group">
                             <label for="edit-future-state">Будущее состояние</label>
                             <textarea class="form-control" id="edit-future-state" name="future_state" rows="3" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-file">Прикрепить файл</label>
+                            <input type="file" class="form-control @error('file') is-invalid @enderror" id="edit-file" name="file" accept=".pdf, .doc, .docx, .jpg, .png">
+                            @error('file')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                            @enderror
                         </div>
                         <button type="submit" class="btn btn-primary">Сохранить изменения</button>
                     </form>
@@ -240,6 +274,85 @@
     </div>
 @endsection
 @push('scripts')
+    <script>
+        const fileInput = document.getElementById('files');
+        const fileList = document.getElementById('file-list');
+        const uploadButton = document.getElementById('upload-button');
+
+        fileInput.addEventListener('change', () => {
+            fileList.innerHTML = ''; // Очищаем список перед добавлением новых файлов
+
+            if (fileInput.files.length > 0) {
+                Array.from(fileInput.files).forEach((file, index) => {
+                    const listItem = document.createElement('div');
+                    listItem.classList.add('file-item', 'mb-2');
+                    listItem.innerHTML = `
+                        <span>${index + 1}. ${file.name} (${(file.size / 1024).toFixed(2)} KB)</span>
+                    `;
+                    fileList.appendChild(listItem);
+                });
+
+                // Активируем кнопку загрузки
+                uploadButton.disabled = false;
+            } else {
+                // Отключаем кнопку загрузки, если файлов нет
+                uploadButton.disabled = true;
+            }
+        });
+
+        // Действие при нажатии на кнопку загрузки
+        uploadButton.addEventListener('click', () => {
+            alert('Файлы выбраны и готовы к загрузке');
+            // Здесь можно добавить отправку формы или другой функционал
+        });
+    </script>
+
+    <script>
+        Dropzone.autoDiscover = false; // Отключаем автоматическое инициализацию
+
+        const myDropzone = new Dropzone("#file-dropzone", {
+            url: "#", // Заглушка URL, так как файлы будут отправляться с основной формой
+            autoProcessQueue: false, // Отключаем автоматическую отправку файлов
+            paramName: "files[]", // Имя параметра для отправки файлов
+            maxFiles: 10, // Максимум 10 файлов
+            maxFilesize: 2, // Максимальный размер файла (в МБ)
+            acceptedFiles: ".pdf,.doc,.docx,.jpg,.png", // Допустимые форматы
+            addRemoveLinks: true, // Кнопка "Удалить"
+            dictRemoveFile: "Удалить файл",
+            dictDefaultMessage: "Перетащите файлы сюда или нажмите для выбора",
+        });
+
+        // Обработка отправки основной формы
+        document.getElementById("main-form").addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            // Если есть файлы в очереди
+            if (myDropzone.getQueuedFiles().length > 0) {
+                myDropzone.processQueue(); // Отправляем файлы
+            } else {
+                // Если файлов нет, отправляем форму
+                this.submit();
+            }
+        });
+
+        // После успешной загрузки всех файлов отправляем форму
+        myDropzone.on("queuecomplete", function () {
+            document.getElementById("main-form").submit();
+        });
+
+        // В случае ошибки загрузки
+        myDropzone.on("error", function (file, response) {
+            console.error("Ошибка загрузки файла:", response);
+        });
+    </script>
+    <script>
+        // Bootstrap 4 и выше поддерживает этот скрипт
+        $(document).on('change', '.custom-file-input', function (event) {
+            var inputFile = event.currentTarget;
+            $(inputFile).parent().find('.custom-file-label').html(inputFile.files[0].name);
+        });
+
+    </script>
     <script>
         $(document).ready(function () {
             $('#editProposalModal').on('show.bs.modal', function (event) {

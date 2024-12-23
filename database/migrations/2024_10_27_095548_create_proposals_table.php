@@ -18,7 +18,6 @@ return new class extends Migration
             $table->text('current_state');
             $table->text('future_state');
             $table->enum('status', ['new', 'in_review', 'accepted', 'rejected'])->default('new');
-            $table->string('file_path')->nullable();
             $table->timestamps();
         });
     }
