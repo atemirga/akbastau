@@ -25,10 +25,10 @@
             acceptedFiles: ".jpeg,.jpg,.png,.pdf,.doc,.docx,.xls,.xlsx,.txt", // Разрешённые типы файлов
             init: function () {
                 this.on("success", function (file, response) {
-                    console.log("Successfully uploaded:", response);
+                    console.log("Успешная загрузка:", response);
                 });
                 this.on("error", function (file, response) {
-                    console.error("Upload error:", response);
+                    console.error("Ошибка загрузки:", response);
                 });
             }
         };
